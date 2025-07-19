@@ -1,4 +1,4 @@
-## NVIDIA GPU Drivers and Utilities
+## NVIDIA CUDA GPU support for Docker/WSL
 
 ### The Hardware
 
@@ -21,7 +21,6 @@ The complications are:
 * Guest Operating System Ubuntu 22.04 x86-64 (not AMD-64):
   * CUDA Driver Version = 12.6 (Installed on Linux from NVIDIA site).
 
-Before running `make install` of AI Chat Llama v2, and only 
 if your are going to use GPU power, then this has to be
 configured manually (I'm too lazy to *Makify* it).
 
@@ -46,11 +45,15 @@ wsl --shutdown
 Restart-Service LxssManager
 ```
 
-### NVIDIA CUDA Driver and Utilities
+### Installation of NVIDIA CUDA Drivers (Binaries)
 
-* https://docs.nvidia.com/cuda/cuda-installation-guide-linux/
+General documentation is available here for you to read:
 
-### Pre-flight checks on the Linux Guest.
+https://docs.nvidia.com/cuda/cuda-installation-guide-linux/
+
+After following the install steps, you can check if works.
+
+### Pre-flight checks on the Linux WSL Guest.
 
 Check first what is already built-in in the WSL Linux image:
 
@@ -82,24 +85,10 @@ Fri Sep 27 23:44:00 2024
 +-----------------------------------------------------------------------------------------+
 ```
 
-(Optional) You can play a bit with the NVIDIA Container Toolkit (If you have docker):
-```
-sudo apt-get install -y nvidia-docker2
-sudo docker run --gpus all nvcr.io/nvidia/k8s/cuda-sample:nbody nbody -gpu -benchmark
-```
-Output should be like this:
-```bash
-(...)
-GPU Device 0: "Ampere" with compute capability 8.6
-> Compute 8.6 CUDA device: [NVIDIA GeForce RTX 3070 Ti Laptop GPU]
-47104 bodies, total time for 10 iterations: 48.482 ms
-= 457.649 billion interactions per second
-= 9152.976 single-precision GFLOP/s at 20 flops per interaction
-```
+### Installation of NVIDIA CUDA Driver Libraries (From Source Code)
 
-### Installation of NVIDIA CUDA Driver Libraries (Source Code)
-
-This is needed so Python (pip) can compile the necesary ML packages for your CUDA Architecture:
+This is needed so Python (pip) can compile the necesary ML packages 
+for your CUDA Architecture:
 
 ```bash
 ###
@@ -134,8 +123,31 @@ Device 0: "NVIDIA GeForce RTX 3070 Ti Laptop GPU"
 
 ### Install NVIDIA Container Toolkit (Docker Daemon Settings)
 
-* https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#installation
+General documentation is available here for you to read:
 
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#installation
+
+After following the install steps, you can check if works.
+
+
+You can play a bit with the NVIDIA Container Toolkit (If you have docker):
+```
+sudo apt-get install -y nvidia-docker2
+sudo docker run --gpus all nvcr.io/nvidia/k8s/cuda-sample:nbody nbody -gpu -benchmark
+```
+Output should be like this:
+```bash
+(...)
+GPU Device 0: "Ampere" with compute capability 8.6
+> Compute 8.6 CUDA device: [NVIDIA GeForce RTX 3070 Ti Laptop GPU]
+47104 bodies, total time for 10 iterations: 48.482 ms
+= 457.649 billion interactions per second
+= 9152.976 single-precision GFLOP/s at 20 flops per interaction
+```
+
+This is the recommended way to install the NVIDIA Container Toolkit
+for Docker (Makes changes to `/etc/docker/daemon.json`), so you can
+run GPU accelerated containers:
 ```bash
 # Reference: https://hub.docker.com/r/ollama/ollama
 sudo apt-get install -y nvidia-container-toolkit
