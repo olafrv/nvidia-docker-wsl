@@ -154,3 +154,12 @@ sudo apt-get install -y nvidia-container-toolkit
 sudo nvidia-ctk runtime configure --runtime=docker
 sudo systemctl restart docker
 ```
+
+### NVIDIA CUDA on Windows Subsystem for Linux v2 (aka WSL2):
+
+* https://developer.nvidia.com/cuda/wsl
+* https://developer.nvidia.com/cuda-downloads
+* https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html
+* https://documentation.ubuntu.com/wsl/en/latest/tutorials/gpu-cuda/
+* https://docs.nvidia.com/cuda/wsl-user-guide/index.html#getting-started-with-cuda-on-wsl
+* https://learn.microsoft.com/en-us/windows/wsl/tutorials/gpu-compute
